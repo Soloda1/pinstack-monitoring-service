@@ -122,6 +122,28 @@ services:
     user: root
     command: /bin/sh -c "ip link set dev eth0 mtu 1400 && /run.sh"
 
+  loki:
+    image: grafana/loki:2.9.4
+    container_name: pinstack-loki
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml
+    networks:
+      - pinstack
+
+  promtail:
+    image: grafana/promtail:2.9.4
+    container_name: pinstack-promtail
+    volumes:
+      - /var/log:/var/log
+      - ./promtail-config.yaml:/etc/promtail/config.yaml
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    command: -config.file=/etc/promtail/config.yaml
+    networks:
+      - pinstack
+    depends_on:
+      - loki
 
 volumes:
   elasticsearch_data:
