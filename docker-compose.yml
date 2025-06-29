@@ -1,5 +1,18 @@
-
 services:
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: pinstack-kafka-ui
+    ports:
+      - "9091:8080"
+    environment:
+      KAFKA_CLUSTERS_0_NAME: pinstack-local-kafka
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka1:9092,kafka2:9092,kafka3:9092
+      DYNAMIC_CONFIG_ENABLED: 'true'
+    networks:
+      - pinstack
+
+
   ######################
   # ELK Stack
   ######################
@@ -83,6 +96,32 @@ services:
     networks:
       - pinstack
     command: [ "--strict.perms=false" ]
+
+    ######################
+    # Monitoring Stack   #
+    ######################
+  prometheus:
+    image: prom/prometheus:v2.52.0
+    container_name: pinstack-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    networks:
+      - pinstack
+
+  grafana:
+    image: grafana/grafana:11.0.0
+    container_name: pinstack-grafana
+    ports:
+      - "3000:3000"
+    networks:
+      - pinstack
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    user: root
+    command: /bin/sh -c "ip link set dev eth0 mtu 1400 && /run.sh"
+
 
 volumes:
   elasticsearch_data:
