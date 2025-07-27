@@ -5,23 +5,72 @@ scrape_configs:
   - job_name: 'user-service'
     static_configs:
       - targets: ['pinstack-user-service:9101']
+        labels:
+          env: "dev"
 
   - job_name: 'auth-service'
     static_configs:
       - targets: ['pinstack-auth-service:9102']
+        labels:
+          env: "dev"
 
   - job_name: 'post-service'
     static_configs:
       - targets: ['pinstack-post-service:9103']
+        labels:
+          env: "dev"
 
   - job_name: 'relation-service'
     static_configs:
       - targets: ['pinstack-relation-service:9104']
+        labels:
+          env: "dev"
 
   - job_name: 'notification-service'
     static_configs:
       - targets: ['pinstack-notification-service:9105']
+        labels:
+          env: "dev"
 
   - job_name: 'api-gateway'
     static_configs:
       - targets: ['pinstack-api-gateway:9106']
+        labels:
+          env: "dev"
+
+  # Тестовые сервисы
+  - job_name: 'user-service-test'
+    static_configs:
+      - targets: ['pinstack-user-service-test:9101']
+        labels:
+          env: "test"
+
+  - job_name: 'auth-service-test'
+    static_configs:
+      - targets: ['pinstack-auth-service-test:9102']
+        labels:
+          env: "test"
+
+  - job_name: 'post-service-test'
+    static_configs:
+      - targets: ['pinstack-post-service-test:9103']
+        labels:
+          env: "test"
+
+  - job_name: 'relation-service-test'
+    static_configs:
+      - targets: ['pinstack-relation-service-test:9104']
+        labels:
+          env: "test"
+
+  - job_name: 'notification-service-test'
+    static_configs:
+      - targets: ['pinstack-notification-service-test:9105']
+        labels:
+          env: "test"
+
+  - job_name: 'api-gateway-test'
+    static_configs:
+      - targets: ['pinstack-api-gateway-test:9106']
+        labels:
+          env: "test"
