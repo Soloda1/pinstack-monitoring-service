@@ -10,6 +10,7 @@ services:
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka1:9092,kafka2:9092,kafka3:9092
       DYNAMIC_CONFIG_ENABLED: 'true'
     networks:
+      - pinstack-test
       - pinstack
 
 
@@ -30,6 +31,7 @@ services:
     volumes:
       - elasticsearch_data:/usr/share/elasticsearch/data
     networks:
+      - pinstack-test
       - pinstack
     healthcheck:
       test: [ "CMD-SHELL", "curl -f http://localhost:9200/_cluster/health || exit 1" ]
@@ -53,6 +55,7 @@ services:
       elasticsearch:
         condition: service_healthy
     networks:
+      - pinstack-test
       - pinstack
     command: logstash -f /usr/share/logstash/pipeline/logstash.conf
 
@@ -68,6 +71,7 @@ services:
       elasticsearch:
         condition: service_healthy
     networks:
+      - pinstack-test
       - pinstack
     healthcheck:
       test: [ "CMD-SHELL", "curl -f http://localhost:5601/api/status || exit 1" ]
@@ -94,6 +98,7 @@ services:
       logstash:
         condition: service_started
     networks:
+      - pinstack-test
       - pinstack
     command: [ "--strict.perms=false" ]
 
@@ -108,6 +113,7 @@ services:
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
     networks:
+      - pinstack-test
       - pinstack
 
   grafana:
@@ -116,6 +122,7 @@ services:
     ports:
       - "3000:3000"
     networks:
+      - pinstack-test
       - pinstack
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=admin
@@ -130,6 +137,7 @@ services:
     command: -config.file=/etc/loki/local-config.yaml
     networks:
       - pinstack
+      - pinstack-test
 
   promtail:
     image: grafana/promtail:2.9.4
@@ -142,6 +150,7 @@ services:
     command: -config.file=/etc/promtail/config.yaml
     networks:
       - pinstack
+      - pinstack-test
     depends_on:
       - loki
 
@@ -150,5 +159,7 @@ volumes:
   filebeat_data:
 
 networks:
+  pinstack-test:
+    external: true
   pinstack:
     external: true
