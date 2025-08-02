@@ -15,6 +15,17 @@ services:
       - pinstack-test
       - pinstack
 
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: pinstack-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_LISTEN_PORT: 5050
+    ports:
+      - "5050:5050"
+    networks:
+      - pinstack
 
   ######################
   # ELK Stack
@@ -162,8 +173,10 @@ volumes:
 
 networks:
   pinstack-test:
+    name: pinstack-test
     driver: bridge
     external: true
   pinstack:
+    name: pinstack
     driver: bridge
     external: true
