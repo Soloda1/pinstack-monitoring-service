@@ -112,7 +112,7 @@
       "targets": [
         {
           "expr": "rate(http_requests_total[5m])",
-          "legendFormat": "{{method}} {{endpoint}}",
+          "legendFormat": "{{method}} {{endpoint}} {{status}}",
           "refId": "A"
         }
       ],
@@ -196,7 +196,7 @@
       "targets": [
         {
           "expr": "rate(grpc_client_requests_total[5m])",
-          "legendFormat": "{{service}} {{method}}",
+          "legendFormat": "{{service}} {{method}} {{status}}",
           "refId": "A"
         }
       ],
@@ -869,7 +869,7 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 8,
+        "w": 12,
         "x": 0,
         "y": 36
       },
@@ -953,8 +953,8 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 8,
-        "x": 8,
+        "w": 12,
+        "x": 12,
         "y": 36
       },
       "id": 12,
@@ -977,90 +977,6 @@
         }
       ],
       "title": "Post Service - Cache Performance",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "vis": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "reqps"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 8,
-        "x": 16,
-        "y": 36
-      },
-      "id": 13,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom"
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "expr": "rate(media_operations_total[5m])",
-          "legendFormat": "{{operation}} {{success}}",
-          "refId": "A"
-        }
-      ],
-      "title": "Post Service - Media Operations",
       "type": "timeseries"
     },
     {
@@ -1792,7 +1708,7 @@
       "targets": [
         {
           "expr": "service_health",
-          "legendFormat": "User Service",
+          "legendFormat": "User & Post Service",
           "refId": "A"
         },
         {
@@ -1801,19 +1717,14 @@
           "refId": "B"
         },
         {
-          "expr": "service_health",
-          "legendFormat": "Post Service",
-          "refId": "C"
-        },
-        {
           "expr": "relation_service_health",
           "legendFormat": "Relation Service",
-          "refId": "D"
+          "refId": "C"
         },
         {
           "expr": "notification_service_health",
           "legendFormat": "Notification Service",
-          "refId": "E"
+          "refId": "D"
         }
       ],
       "title": "All Services Health Status",
